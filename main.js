@@ -563,12 +563,12 @@ function showGameResultUI(result) {
   container.style.zIndex = '100';
 
   const text = document.createElement('p');
-  text.textContent = `勝者: ${result.result}（黒: ${result.score.black} - 白: ${result.score.white}）`;
+  text.textContent = `Winner: ${result.result}（BLACK: ${result.score.black} - WHITE: ${result.score.white}）`;
   container.appendChild(text);
 
   // 棋譜送信ボタン
 const sendBtn = document.createElement('button');
-sendBtn.textContent = '棋譜を送信';
+sendBtn.textContent = 'Send Game Record';
 sendBtn.style.margin = '10px';
 
 sendBtn.addEventListener('click', () => {
@@ -576,13 +576,13 @@ sendBtn.addEventListener('click', () => {
   const newRef = push(kifuRef); // ユニークキーを自動生成
   set(newRef, result) // result は棋譜オブジェクト
     .then(() => {
-      alert('棋譜を送信しました！');
+      alert('Sent Successfully!');
       container.remove();
       showNewGameButton();
     })
     .catch((error) => {
       console.error("送信エラー:", error);
-      alert("棋譜の送信に失敗しました。");
+      alert("Sending failed");
     });
 });
 
@@ -740,7 +740,7 @@ function updateStoneCountDisplay() {
   const count = countStones();
   const display = document.getElementById('stone-count-display');
   if (display) {
-    display.textContent = `黒: ${count.black} ／ 白: ${count.white}`;
+    display.textContent = `BLACK: ${count.black} ／ WHITE: ${count.white}`;
   }
 }
 
@@ -1101,3 +1101,4 @@ function simulateMove(boardCopy, x, y, z, turnColor) {
     }
   }
 }
+
