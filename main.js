@@ -836,7 +836,7 @@ async function handleAITurn() {
         revertPreviousRedStone(prevColor);
       }
 
-      showAIPassPopup("AIはパスしました");
+      showAIPassPopup("AI Passed");
       currentTurn = aiColor === 'black' ? 'white' : 'black';
       updateStoneCountDisplay();
       showAllLegalMoves();
@@ -872,7 +872,7 @@ async function handleAITurn() {
         const prevColor = lastPlacedColor === 'black' ? 0x000000 : 0xffffff;
         revertPreviousRedStone(prevColor);
       }
-        showAIPassPopup("AIはパスしました");
+        showAIPassPopup("AI Passed");
         currentTurn = aiColor === 'black' ? 'white' : 'black';
         updateStoneCountDisplay();
         showAllLegalMoves();
@@ -906,7 +906,7 @@ async function handleAITurn() {
                     const prevColor = lastPlacedColor === 'black' ? 0x000000 : 0xffffff;
                     revertPreviousRedStone(prevColor);
                   }
-                showAIPassPopup("AIはパスしました");
+                showAIPassPopup("AI Passed");
                 currentTurn = aiColor === 'black' ? 'white' : 'black';
                 updateStoneCountDisplay();
                 showAllLegalMoves();
@@ -1101,4 +1101,5 @@ function simulateMove(boardCopy, x, y, z, turnColor) {
     }
   }
 }
+
 
