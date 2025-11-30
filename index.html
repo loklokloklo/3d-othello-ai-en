@@ -34,7 +34,7 @@
   </script>
 
   <meta charset="UTF-8" />
-  <title>4x4x4 オセロ</title>
+  <title>4x4x4 Othello</title>
   <style>
     body {
       margin: 0;
@@ -94,14 +94,14 @@
 <body>
 <!-- 石の数表示 -->
 <div id="stone-count-display" style="position: absolute; top: 10px; left: 50%; transform: translateX(-50%); color: black; background: rgba(255,255,255,0.9); padding: 15px 30px; border-radius: 12px; font-size: 24px; font-weight: bold; z-index: 10; min-width: 220px; text-align: center; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);">
-  黒: 0 ／ 白: 0
+  BLACK: 0 ／ WHITE: 0
 </div>
 
  <!-- 手番選択UI -->
   <div id="turn-selection">
-    <h2>手番を選んでください</h2>
-    <button id="black-button">先手（黒）</button>
-    <button id="white-button">後手（白）</button>
+    <h2>Please choose your turn</h2>
+    <button id="black-button">First play (BLACK)</button>
+    <button id="white-button">Second play（WHITE）</button>
   </div>
 
   <!-- パス用ポップアップ -->
@@ -123,7 +123,7 @@ align-items: center;
   box-shadow: 0 0 10px rgba(0,0,0,0.3);
   text-align: center;
 ">
-  <p>置ける場所がありません。AIのターンになります。</p>
+  <p>Pass. Press OK to move to the next turn</p>
   <button id="pass-ok-button" style="margin-top: 10px;">OK</button>
 </div>
 </div>
@@ -132,8 +132,8 @@ align-items: center;
  <!-- ゲーム結果後のUI -->
 <div id="game-end-ui" style="display: none; position: absolute; top: 40%; left: 50%; transform: translate(-50%, -50%); background: white; padding: 30px 40px; border-radius: 15px; text-align: center; z-index: 10; min-width: 300px; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);">
   <p id="game-result-text" style="font-size: 24px; font-weight: bold; margin-bottom: 20px;"></p>
-  <button id="send-kifu-btn" style="font-size: 18px; padding: 10px 20px; border-radius: 8px; margin: 5px;">棋譜を送信</button>
-  <button id="new-game-btn" style="font-size: 18px; padding: 10px 20px; border-radius: 8px; margin: 5px;">新しいゲーム</button>
+  <button id="send-kifu-btn" style="font-size: 18px; padding: 10px 20px; border-radius: 8px; margin: 5px;">Send Game Record</button>
+  <button id="new-game-btn" style="font-size: 18px; padding: 10px 20px; border-radius: 8px; margin: 5px;">New Game</button>
 </div>
 
 
@@ -158,48 +158,49 @@ align-items: center;
     font-size: 1rem;
     line-height: 1.5;
   ">
-      <p>このゲームは、AIとの対戦専用の3Dオセロです。</p>
+     <p>This game is a 3D Othello designed for playing against an AI opponent.</p>
 
-    <p>プレイ中に収集されるデータは、以下の4点です：</p>
-    <ul style="text-align: left; display: inline-block;">
-      <li>プレイヤーの先手／後手の選択</li>
-      <li>対局中の棋譜</li>
-      <li>勝敗結果</li>
-      <li>最終的な石の数</li>
-    </ul>
+<p>The following data will be collected during gameplay:</p>
+<ul style="text-align: left; display: inline-block;">
+  <li>Choice of playing first or second</li>
+  <li>Game record during the match</li>
+  <li>Match outcome (win/loss)</li>
+  <li>Final number of stones</li>
+</ul>
 
-    <p>
-      これらのデータは <strong>AIの研究目的のみに使用</strong> し、それ以外の目的には一切使用しません。
-    </p>
+<p>
+  This data will be used <strong>solely for AI research purposes</strong> and will not be used for any other purpose.
+</p>
 
-    <p style="margin-top: 1.5rem;"><strong>【重要なご案内】</strong></p>
-    <ul style="text-align: left; display: inline-block;">
-      <li><strong>「了承する」ボタンを押した直後に「置ける場所がありません」と表示されますが、これはバグです。</strong><br>
-      そのまま「OK」ボタンを押して、手番選択画面へお進みください。</li><br>
+<p style="margin-top: 1.5rem;"><strong>Important Notice</strong></p>
+<ul style="text-align: left; display: inline-block;">
 
-      <li><strong>このゲームでは一度石を置くと取り消しはできません。</strong><br>
-      慎重に操作を行ってください。</li><br>
+  <li><strong>Immediately after pressing the “Agree” button, a message saying “No valid moves available” will appear, but this is a bug.</strong><br>
+  Please press “OK” to proceed to the turn selection screen.</li><br>
 
-      <li>オセロ盤を回転させたいときは、<strong>背景などの何も無い部分でドラッグ</strong>してください。<br>
-      盤に触った状態で回転させると石が置かれることがありますのでご注意ください。</li><br>
-      
-      <li>本ゲームでは、<strong>AIの置いた石が赤い透明な膜で覆われることで強調表示されます。</strong><br>
-      <strong>黒色は茶色</strong>っぽく、<strong>白色はピンク色</strong>っぽく見えます</li><br>
+  <li><strong>Once you place a stone in this game, it cannot be undone.</strong><br>
+  Please act carefully.</li><br>
 
-      <li>
-      本オセロAIは現在開発中です。通信環境により応答に時間がかかる場合があります。  
-      <strong>平均してAIの手には約20秒ほどかかることがあります。</strong> あらかじめご了承ください。
-    </li>
+  <li>If you want to rotate the Othello board, <strong>drag on an empty area such as the background</strong>.<br>
+  Be careful: rotating while touching the board may accidentally place a stone.</li><br>
 
-    </ul>
+  <li>In this game, <strong>the stone placed by the AI is highlighted with a red transparent overlay</strong>.<br>
+  <strong>Black stones appear brownish</strong>, and <strong>white stones appear pinkish</strong>.</li><br>
 
-    <p>
-      上記内容にご同意いただける場合は、以下の「了承する」ボタンを押してゲームを開始してください。
-    </p>
+  <li>
+    The Othello AI is still under development. Depending on your network environment, it may take some time to respond.<br>
+    <strong>On average, the AI may take around 20 seconds to make a move.</strong> Thank you for your understanding.
+  </li>
 
-    <button id="consentButton" style="margin-top: 1.5rem; padding: 0.5rem 1.5rem; font-size: 1rem; border: none; background-color: #4caf50; color: white; border-radius: 0.5rem; cursor: pointer;">
-      了承する
-    </button>
+</ul>
+
+<p>
+  If you agree with the above, please press the “Agree” button below to start the game.
+</p>
+
+<button id="consentButton" style="margin-top: 1.5rem; padding: 0.5rem 1.5rem; font-size: 1rem; border: none; background-color: #4caf50; color: white; border-radius: 0.5rem; cursor: pointer;">
+  Agree
+</button>
   </div>
 </div>
 
@@ -224,4 +225,5 @@ align-items: center;
 
 
 </body>
+
 </html>
